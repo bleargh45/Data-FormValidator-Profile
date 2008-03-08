@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More 'no_plan';
+use Test::More tests => 15;
 BEGIN {
     use_ok( 'Data::FormValidator::Profile' );
 }
