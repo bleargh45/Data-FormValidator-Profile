@@ -47,7 +47,7 @@ reduce_only: {
         );
     my $object = Data::FormValidator::Profile->new( %profile );
     isa_ok $object, 'Data::FormValidator::Profile';
-    
+
     $object->only( qw(this thing) );
     my %expect = (
         required    => [qw(this)],
@@ -72,7 +72,7 @@ reduce_remove: {
     my $object = Data::FormValidator::Profile->new( %profile );
     isa_ok $object, 'Data::FormValidator::Profile';
 
-    $object->remove( qw(this) );    
+    $object->remove( qw(this) );
     my %expect = (
         required    => [qw(that)],
         optional    => [qw(other thing)],
@@ -91,7 +91,7 @@ verify_dfv_interaction: {
         );
     my $object = Data::FormValidator::Profile->new( %profile );
     isa_ok $object, 'Data::FormValidator::Profile';
-    
+
     my $data = {
         'this'  => 'here',
         'that'  => 'there',
@@ -100,7 +100,7 @@ verify_dfv_interaction: {
     my $results = Data::FormValidator->check( $data, $object->profile() );
     isa_ok $results, 'Data::FormValidator::Results';
     ok $results->success(), '... validated successfully';
-    is $results->valid('this'), 'here',     '... field: this';     
+    is $results->valid('this'), 'here',     '... field: this';
     is $results->valid('that'), 'there',    '... field: that';
     is $results->valid('other'), 'nowhere', '... field: other';
 }
