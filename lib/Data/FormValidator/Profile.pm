@@ -5,11 +5,12 @@ package Data::FormValidator::Profile;
 ###############################################################################
 use strict;
 use warnings;
+use Carp;
 
 ###############################################################################
 # Version number.
 ###############################################################################
-our $VERSION = '0.01';
+our $VERSION = '0.02_01';
 
 ###############################################################################
 # Use the '_arrayify()' method from DFV.
@@ -69,6 +70,109 @@ sub remove {
 }
 
 ###############################################################################
+# Subroutine:   add($field, %args)
+# Parameters:   $field      - Field to add to validation profile
+#               %args       - Hash of args controlling validation of field
+###############################################################################
+# Adds the given '$field' to the validation profile, and sets up additional
+# validation rules as per the provided '%args'.
+#
+# If the field already exists in the profile, this method throws a fatal
+# exception.
+#
+# Acceptable '%args' include:
+#   required        - If non-zero, specifies that the field is required and is
+#                     not an optional field (default is to be optional)
+#   default         - Default value for the field.
+#   dependencies    - "dependencies" for this field.  Replaces existing value.
+#   filters         - "field_filters" to be applied.  Replaces existing value.
+#   constraints     - "constraint_methods" for this field.  Replaces existing
+#                     value.
+#   msgs            - Hash-ref of "constraint messages" that are related to
+#                     this field.  Replaces existing values.
+#
+# Here's an example to help show how the '%args' are mapped into a validation
+# profile:
+#
+#   $profile->add(
+#       'username',
+#       required    => 1,
+#       filters     => ['trim', 'lc'],
+#       constraints => FV_length_between(4,32),
+#       msgs => {
+#           length_between => 'Username must be 4-32 chars in length.',
+#           },
+#       );
+#
+# becomes:
+#
+#   {
+#       required => [qw( username )],
+#       field_filters => {
+#           username => ['trim', 'lc'],
+#       },
+#       constraint_methods => {
+#           username => FV_length_between(4,32),
+#       },
+#       msgs => {
+#           constraints => {
+#               length_between => 'Username must be ...',
+#           },
+#       },
+#   }
+###############################################################################
+sub add {
+    my ($self, $field, %args) = @_;
+
+    # Get the profile we're manipulating.
+    my $profile = $self->profile();
+
+    # Make sure that the field isn't already defined
+    foreach my $type (qw( required optional )) {
+        if (grep { $_ eq $field } _arrayify($profile->{$type})) {
+            croak "field '$field' already defined in DFV profile.\n";
+        }
+    }
+
+    # Add the field to the profile
+    my $type = $args{'required'} ? 'required' : 'optional';
+    $profile->{$type} = [
+        _arrayify($profile->{$type}),
+        $field,
+        ];
+
+    # Defaults
+    if ($args{'default'}) {
+        $profile->{'defaults'}{$field} = $args{'default'};
+    }
+
+    # Dependencies
+    if ($args{'dependencies'}) {
+        $profile->{'dependencies'}{$field} = $args{'dependencies'};
+    }
+
+    # Field filters
+    if ($args{'filters'}) {
+        $profile->{'field_filters'}{$field} = $args{'filters'};
+    }
+
+    # Constraint methods
+    if ($args{'constraints'}) {
+        $profile->{'constraint_methods'}{$field} = $args{'constraints'};
+    }
+
+    # Constraint messages
+    if ($args{'msgs'}) {
+        foreach my $key (keys %{$args{'msgs'}}) {
+            $profile->{'msgs'}{'constraints'}{$key} = $args{'msgs'}{$key};
+        }
+    }
+
+    # Return ourselves back to the caller, for call chaining.
+    return $self;
+}
+
+###############################################################################
 # Subroutine:   _update($matcher)
 # Parameters:   $matcher    - Field matching routine
 ###############################################################################
@@ -100,6 +204,9 @@ sub _update {
             };
         }
     }
+
+    # return ourselves back to the caller, for call chaining
+    return $self;
 }
 
 1;
@@ -124,6 +231,18 @@ Data::FormValidator::Profile - Profile object for Data::FormValidator
 
   # remove fields from the profile
   $profile->remove( qw(some other thing) );
+
+  # add a new field to the profile
+  $profile->add( 'username',
+      required    => 1,
+      filters     => 'trim',
+      constraints => [ ... ],
+      msgs => {
+          constraints => {
+              file_max_bytes => 'too big',
+          },
+      },
+  );
 
   # use the profile to validate data
   $data = { ... };
@@ -179,30 +298,100 @@ to access the underlying HASHREF for the profile.
 
 =over
 
-=item new()
+=item B<new()>
 
 Creates a new DFV::Profile object, based on the given profile (which can be
-provided either as a HASH or a HASHREF). 
+provided either as a HASH or a HASHREF).
 
-=item profile()
+=item B<profile()>
 
 Returns the actual profile, as a hash-ref. You need to call this method
 when you want to send the profile through to C<Data::FormValidator> to do
-data validation. 
+data validation.
 
-=item only(@fields)
+=item B<only(@fields)>
 
 Reduces the profile so that it only contains information on the given list
-of C<@fields>. 
+of C<@fields>.
 
-=item remove(@fields)
+=item B<remove(@fields)>
 
-Removes any of the given C<@fields> from the profile. 
+Removes any of the given C<@fields> from the profile.
 
-=item _update($matcher)
+=item B<add($field, %args)>
+
+Adds the given C<$field> to the validation profile, and sets up additional
+validation rules as per the provided C<%args>.
+
+If the field already exists in the profile, this method throws a fatal
+exception.
+
+Acceptable C<%args> include:
+
+=over
+
+=item required
+
+If non-zero, specifies that the field is required and is not an optional
+field (default is to be optional)
+
+=item default
+
+Default value for the field.
+
+=item dependencies
+
+"dependencies" for this field. Replaces existing value.
+
+=item filters
+
+"field_filters" to be applied. Replaces existing value.
+
+=item constraints
+
+"constraint_methods" for this field. Replaces existing value.
+
+=item msgs
+
+Hash-ref of "constraint messages" that are related to this field. Replaces
+existing values.
+
+=back
+
+Here's an example to help show how the C<%args> are mapped into a
+validation profile:
+
+  $profile->add(
+      'username',
+      required    => 1,
+      filters     => ['trim', 'lc'],
+      constraints => FV_length_between(4,32),
+      msgs => {
+          length_between => 'Username must be 4-32 chars in length.',
+          },
+      );
+
+becomes:
+
+  {
+      required => [qw( username )],
+      field_filters => {
+          username => ['trim', 'lc'],
+      },
+      constraint_methods => {
+          username => FV_length_between(4,32),
+      },
+      msgs => {
+          constraints => {
+              length_between => 'Username must be ...',
+          },
+      },
+  }
+
+=item B<_update($matcher)>
 
 Updates the profile so that it includes only those fields that return true
-from the given C<$matcher> routine. 
+from the given C<$matcher> routine.
 
 =back
 

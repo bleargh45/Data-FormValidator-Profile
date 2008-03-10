@@ -1,4 +1,8 @@
 Revision history for Perl extension Data::FormValidator::Profile
 
+0.02    ????
+    - new "add()" method, to help add new fields to the profile
+    - all methods now allow for call chaining
+
 0.01    Fri Mar  7 15:15 PST 2008
     - initial version

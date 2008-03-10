@@ -1,6 +1,7 @@
 use strict;
 use warnings;
-use Test::More tests => 15;
+use Test::More tests => 17;
+use Test::Exception;
 BEGIN {
     use_ok( 'Data::FormValidator::Profile' );
 }
@@ -103,4 +104,22 @@ verify_dfv_interaction: {
     is $results->valid('this'), 'here',     '... field: this';
     is $results->valid('that'), 'there',    '... field: that';
     is $results->valid('other'), 'nowhere', '... field: other';
+}
+
+###############################################################################
+# Call chaining
+call_chaining: {
+    my %profile = (
+        required    => [qw(this that)],
+        optional    => [qw(other thing)],
+        );
+    my $object = Data::FormValidator::Profile->new( %profile );
+    isa_ok $object, 'Data::FormValidator::Profile';
+
+    lives_ok {
+        $object
+            ->only(qw(this that other))
+            ->remove(qw(that))
+            ->add('foo')
+        } '... call chaining';
 }

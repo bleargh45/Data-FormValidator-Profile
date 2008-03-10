@@ -12,5 +12,6 @@ Module::Build->new(
         },
     'build_requires'    => {
         'Test::More'            => 0,
+        'Test::Exception'       => 0,
         },
     )->create_build_script();
