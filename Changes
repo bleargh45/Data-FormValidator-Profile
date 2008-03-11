@@ -1,6 +1,8 @@
 Revision history for Perl extension Data::FormValidator::Profile
 
 0.02    ????
+    - new "set()" method, for when you want to explicitly set/override values
+      in the profile
     - new "add()" method, to help add new fields to the profile
     - all methods now allow for call chaining
 

@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 17;
+use Test::More tests => 19;
 use Test::Exception;
 BEGIN {
     use_ok( 'Data::FormValidator::Profile' );
@@ -80,6 +80,27 @@ reduce_remove: {
         field_filters => { },
         );
     is_deeply $object->profile(), \%expect, 'removed "this" field';
+}
+
+###############################################################################
+# Explicitly set DFV options
+explicit_set: {
+    my %profile = (
+        required    => [qw(this that)],
+        );
+    my $object = Data::FormValidator::Profile->new( %profile );
+    isa_ok $object, 'Data::FormValidator::Profile';
+
+    $object->set(
+        filters => [],
+        field_filters => { this => 'foo' },
+        );
+    my %expect = (
+        required        => [qw(this that)],
+        filters         => [],
+        field_filters   => { this => 'foo' },
+        );
+    is_deeply $object->profile, \%expect, 'explicitly set options';
 }
 
 ###############################################################################

@@ -70,6 +70,22 @@ sub remove {
 }
 
 ###############################################################################
+# Subroutine:   set(%options)
+# Parameters:   %options    - DFV options to set
+###############################################################################
+# Explicitly sets one or more '%options' into the profile.  Useful when you
+# KNOW exactly what you want to add/do to the profile.
+###############################################################################
+sub set {
+    my ($self, %options) = @_;
+    my $profile = $self->profile();
+    while (my ($key,$val) = each %options) {
+        $profile->{$key} = $val;
+    }
+    return $self;
+}
+
+###############################################################################
 # Subroutine:   add($field, %args)
 # Parameters:   $field      - Field to add to validation profile
 #               %args       - Hash of args controlling validation of field
@@ -317,6 +333,11 @@ of C<@fields>.
 =item B<remove(@fields)>
 
 Removes any of the given C<@fields> from the profile.
+
+=item B<set(%options)>
+
+Explicitly sets one or more C<%options> into the profile. Useful when you
+KNOW exactly what you want to add/do to the profile.
 
 =item B<add($field, %args)>
 
