@@ -1,7 +1,7 @@
 Build
 _build/
-blib/
-\.svn/
+\.git/
 \..*\.swp
+blib/
 Makefile
 pm_to_blib
