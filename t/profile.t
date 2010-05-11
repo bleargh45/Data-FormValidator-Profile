@@ -119,7 +119,7 @@ verify_dfv_interaction: {
         'that'  => 'there',
         'other' => 'nowhere',
         };
-    my $results = Data::FormValidator->check( $data, $object->profile() );
+    my $results = $object->check($data);
     isa_ok $results, 'Data::FormValidator::Results';
     ok $results->success(), '... validated successfully';
     is $results->valid('this'), 'here',     '... field: this';

@@ -33,6 +33,19 @@ sub new {
 }
 
 ###############################################################################
+# Subroutine:   check($data)
+# Parameters:   $data       - Hash-ref of data to check
+# Returns:      $results    - DFV::Results object
+###############################################################################
+# Checks the given '$data' against the profile.  This method simply acts as a
+# short-hand to 'Data::FormValidator->check($data, $profile->profile)'.
+###############################################################################
+sub check {
+    my ($self, $data) = @_;
+    return Data::FormValidator->check($data, $self->profile);
+}
+
+###############################################################################
 # Subroutine:   profile()
 ###############################################################################
 # Returns the actual profile, as a hash-ref.  You need to call this method when
@@ -262,6 +275,8 @@ Data::FormValidator::Profile - Profile object for Data::FormValidator
 
   # use the profile to validate data
   $data = { ... };
+  $res  = $profile->check($data);
+  # ... or
   $res  = Data::FormValidator->check( $data, $profile->profile() );
 
 =head1 DESCRIPTION
@@ -302,11 +317,22 @@ That said, though, I'm not using anything that fancy, so it works for me.
 
 =item *
 
-In order to use the profile with C<Data::FormValidator>, you B<must> call
-C<profile()> on it to get the actual underlying profile back as a HASHREF that
-you can pass through to C<Data::FormValidator>.  C<Data::FormValidator> doesn't
-accept any sort of blessed object for a profile, so you have to call this method
-to access the underlying HASHREF for the profile.
+To use the profile with C<Data::FormValidator>, use either the form of:
+
+  $profile->check($data)
+
+or
+
+  Data::FormValidator->check($data, $profile->profile)
+
+C<Data::FormValidator> won't accept a blessed object when calling
+C<Data::FormValidator-E<gt>check()>, so you need to call
+C<$profile-E<gt>profile()> to turn the
+profile into a HASHREF first.
+
+Unless you're doing anything fancier and you've got an actual
+C<Data::FormValidator> object that you're working with, its easier/simpler to
+just call C<$profile-E<gt>check($data)>; that's the recommended interface.
 
 =back
 
@@ -318,6 +344,11 @@ to access the underlying HASHREF for the profile.
 
 Creates a new DFV::Profile object, based on the given profile (which can be
 provided either as a HASH or a HASHREF).
+
+=item B<check($data)>
+
+Checks the given C<$data> against the profile.  This method simply acts as a
+short-hand to C<Data::FormValidator-E<gt>check($data, $profile-E<gt>profile)>.
 
 =item B<profile()>
 
