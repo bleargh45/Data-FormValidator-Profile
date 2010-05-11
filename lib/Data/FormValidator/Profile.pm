@@ -205,8 +205,8 @@ sub add {
 # Subroutine:   _update($matcher)
 # Parameters:   $matcher    - Field matching routine
 ###############################################################################
-# Updates the profile so that it includes only those fields that return true
-# from the given '$matcher' routine.
+# INTERNAL METHOD.  Updates the profile so that it includes only those fields
+# that return true from the given '$matcher' routine.
 ###############################################################################
 sub _update {
     my ($self, $matcher) = @_;
@@ -453,11 +453,6 @@ becomes:
           },
       },
   }
-
-=item B<_update($matcher)>
-
-Updates the profile so that it includes only those fields that return true
-from the given C<$matcher> routine.
 
 =back
 
