@@ -273,6 +273,12 @@ Data::FormValidator::Profile - Profile object for Data::FormValidator
       },
   );
 
+  # call chaining, to make manipulation quicker
+  $profile->only(qw( this that other ))
+    ->remove(qw( that ))
+    ->add(qw( foo ))
+    ->check($data);
+
   # use the profile to validate data
   $data = { ... };
   $res  = $profile->check($data);
@@ -361,14 +367,20 @@ data validation.
 Reduces the profile so that it only contains information on the given list
 of C<@fields>.
 
+Returns C<$self>, to support call-chaining.
+
 =item B<remove(@fields)>
 
 Removes any of the given C<@fields> from the profile.
+
+Returns C<$self>, to support call-chaining.
 
 =item B<set(%options)>
 
 Explicitly sets one or more C<%options> into the profile. Useful when you
 KNOW exactly what you want to add/do to the profile.
+
+Returns C<$self>, to support call-chaining.
 
 =item B<add($field, %args)>
 
@@ -377,6 +389,8 @@ validation rules as per the provided C<%args>.
 
 If the field already exists in the profile, this method throws a fatal
 exception.
+
+Returns C<$self>, to support call-chaining.
 
 Acceptable C<%args> include:
 

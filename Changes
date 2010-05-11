@@ -3,6 +3,7 @@ Revision history for Perl extension Data::FormValidator::Profile
 0.03    ????
     - new "check($data)" method, short-hand for
       "Data::FormValidator->check($data, $profile->profile)"
+    - added docs about call-chaining, for easier profile manipulation
 
 0.02    Fri Apr 23 21:36 PDT 2010
     - switch to Git
