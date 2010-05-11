@@ -1,6 +1,6 @@
 ---
 name: Data-FormValidator-Profile
-version: 0.02
+version: 0.03
 author:
   - Graham TerMarsch (cpan@howlingfrog.com)
 abstract: Profile object for Data::FormValidator
@@ -15,7 +15,7 @@ build_requires:
 provides:
   Data::FormValidator::Profile:
     file: lib/Data/FormValidator/Profile.pm
-    version: 0.02
+    version: 0.03
 generated_by: Module::Build version 0.32
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
