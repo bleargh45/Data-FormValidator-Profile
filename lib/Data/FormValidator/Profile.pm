@@ -197,7 +197,7 @@ sub add {
 ###############################################################################
 sub _update {
     my ($self, $matcher) = @_;
-    
+
     # Get the profile we're manipulating.
     my $profile = $self->profile();
 
