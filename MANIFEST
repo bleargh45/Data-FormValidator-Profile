@@ -3,6 +3,7 @@ MANIFEST
 MANIFEST.SKIP
 Makefile.PL
 META.yml
+META.json
 Changes
 README
 lib/Data/FormValidator/Profile.pm

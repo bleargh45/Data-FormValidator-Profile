@@ -1,22 +1,25 @@
 ---
-name: Data-FormValidator-Profile
-version: 0.03
+abstract: 'Profile object for Data::FormValidator'
 author:
-  - Graham TerMarsch (cpan@howlingfrog.com)
-abstract: Profile object for Data::FormValidator
-license: perl
-resources:
-  license: ~
-requires:
-  Data::FormValidator: 4.5
+  - 'Graham TerMarsch (cpan@howlingfrog.com)'
 build_requires:
   Test::Exception: 0
   Test::More: 0
+configure_requires:
+  Module::Build: 0.38
+dynamic_config: 1
+generated_by: 'Module::Build version 0.38, CPAN::Meta::Converter version 2.112150'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Data-FormValidator-Profile
 provides:
   Data::FormValidator::Profile:
     file: lib/Data/FormValidator/Profile.pm
     version: 0.03
-generated_by: Module::Build version 0.32
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
+requires:
+  Data::FormValidator: 4.5
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.03
