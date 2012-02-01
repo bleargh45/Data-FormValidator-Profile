@@ -38,7 +38,7 @@ sub new {
 # Returns:      $results    - DFV::Results object
 ###############################################################################
 # Checks the given '$data' against the profile.  This method simply acts as a
-# short-hand to 'Data::FormValidator->check($data, $profile->profile)'.
+# short-hand to 'Data::FormValidator->check($data,$profile->profile)'.
 ###############################################################################
 sub check {
     my ($self, $data) = @_;
@@ -361,8 +361,9 @@ provided either as a HASH or a HASHREF).
 
 =item B<check($data)>
 
-Checks the given C<$data> against the profile.  This method simply acts as a
-short-hand to C<Data::FormValidator-E<gt>check($data, $profile-E<gt>profile)>.
+Checks the given C<$data> against the profile. This method simply acts as a
+short-hand to
+C<Data::FormValidator-E<gt>check($data,$profile-E<gt>profile)>.
 
 =item B<profile()>
 
