@@ -119,6 +119,37 @@ sub make_optional {
 }
 
 ###############################################################################
+# Subroutine:   make_required(@fields)
+# Parameters:   @fields     - List of fields to force to required
+###############################################################################
+# Ensures that the given set of '@fields' are set as being required (even if
+# they were previously described as being optional fields).
+#
+# Returns '$self', to support call-chaining.
+###############################################################################
+sub make_required {
+    my ($self, @fields) = @_;
+    my $profile = $self->profile();
+
+    # Partition the existing list of optional fields into those that are still
+    # going to be required, and those that are being made required.
+    my %make_required = map { $_ => 1 } @fields;
+    my ($optional, $required) =
+        part { exists $make_required{$_} }
+        _arrayify($profile->{optional});
+
+    # Update the lists of required/optional fields.
+    $profile->{optional} = $optional;
+    $profile->{required} = [
+        _arrayify($profile->{required}),
+        @{$required},
+    ];
+
+    # Support call chaining.
+    return $self;
+}
+
+###############################################################################
 # Subroutine:   set(%options)
 # Parameters:   %options    - DFV options to set
 ###############################################################################
@@ -420,6 +451,13 @@ Returns C<$self>, to support call-chaining.
 
 Ensures that the given set of C<@fields> are set as being optional (even if
 they were previously described as being required fields).
+
+Returns C<$self>, to support call-chaining.
+
+=item B<make_required(@fields)>
+
+Ensures that the given set of C<@fields> are set as being required (even if
+they were previously described as being optional fields).
 
 Returns C<$self>, to support call-chaining.
 
