@@ -6,6 +6,7 @@ package Data::FormValidator::Profile;
 use strict;
 use warnings;
 use Carp;
+use List::MoreUtils qw(part);
 
 ###############################################################################
 # Version number.
@@ -84,6 +85,37 @@ sub remove {
     my ($self, @fields) = @_;
     my %lookup = map { $_=>1 } @fields;
     $self->_update( sub { not exists $lookup{$_[0]} } );
+}
+
+###############################################################################
+# Subroutine:   make_optional(@fields)
+# Parameters:   @fields     - List of fields to force to optional
+###############################################################################
+# Ensures that the given set of '@fields' are set as being optional (even if
+# they were previously described as being required fields).
+#
+# Returns '$self', to support call-chaining.
+###############################################################################
+sub make_optional {
+    my ($self, @fields) = @_;
+    my $profile = $self->profile();
+
+    # Partition the existing list of required fields into those that are still
+    # going to be required, and those that are being made optional.
+    my %make_optional = map { $_ => 1 } @fields;
+    my ($required, $optional) =
+        part { exists $make_optional{$_} }
+        _arrayify($profile->{required});
+
+    # Update the lists of required/optional fields.
+    $profile->{required} = $required;
+    $profile->{optional} = [
+        _arrayify($profile->{optional}),
+        @{$optional},
+    ];
+
+    # Support call chaining.
+    return $self;
 }
 
 ###############################################################################
@@ -381,6 +413,13 @@ Returns C<$self>, to support call-chaining.
 =item B<remove(@fields)>
 
 Removes any of the given C<@fields> from the profile.
+
+Returns C<$self>, to support call-chaining.
+
+=item B<make_optional(@fields)>
+
+Ensures that the given set of C<@fields> are set as being optional (even if
+they were previously described as being required fields).
 
 Returns C<$self>, to support call-chaining.
 
