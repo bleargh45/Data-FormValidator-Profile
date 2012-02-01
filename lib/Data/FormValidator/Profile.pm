@@ -63,6 +63,8 @@ sub profile {
 ###############################################################################
 # Reduces the profile so that it only contains information on the given list of
 # '@fields'.
+#
+# Returns '$self', to support call-chaining.
 ###############################################################################
 sub only {
     my ($self, @fields) = @_;
@@ -75,6 +77,8 @@ sub only {
 # Parameters:   @fields     - List of fields to exclude
 ###############################################################################
 # Removes any of the given '@fields' from the profile.
+#
+# Returns '$self', to support call-chaining.
 ###############################################################################
 sub remove {
     my ($self, @fields) = @_;
@@ -88,6 +92,8 @@ sub remove {
 ###############################################################################
 # Explicitly sets one or more '%options' into the profile.  Useful when you
 # KNOW exactly what you want to add/do to the profile.
+#
+# Returns '$self', to support call-chaining.
 ###############################################################################
 sub set {
     my ($self, %options) = @_;
@@ -108,6 +114,8 @@ sub set {
 #
 # If the field already exists in the profile, this method throws a fatal
 # exception.
+#
+# Returns '$self', to support call-chaining.
 #
 # Acceptable '%args' include:
 #   required        - If non-zero, specifies that the field is required and is
