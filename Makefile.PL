@@ -10,6 +10,7 @@ WriteMakefile
   'PREREQ_PM' => {
                    'Test::More' => 0,
                    'Test::Exception' => 0,
+                   'List::MoreUtils' => 0,
                    'Data::FormValidator' => '4.5'
                  }
 )

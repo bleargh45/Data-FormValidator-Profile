@@ -9,6 +9,7 @@ Module::Build->new(
     'create_makefile_pl'=> 'traditional',
     'requires'          => {
         'Data::FormValidator'   => 4.50,
+        'List::MoreUtils'       => 0,
         },
     'build_requires'    => {
         'Test::More'            => 0,

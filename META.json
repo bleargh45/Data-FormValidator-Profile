@@ -27,7 +27,8 @@
       },
       "runtime" : {
          "requires" : {
-            "Data::FormValidator" : "4.5"
+            "Data::FormValidator" : "4.5",
+            "List::MoreUtils" : 0
          }
       }
    },
