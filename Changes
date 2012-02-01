@@ -1,5 +1,9 @@
 Revision history for Perl extension Data::FormValidator::Profile
 
+0.04    Wed Feb 1 12:06 PST 2012
+    - new method to turn required fields into optional ones, and one to turn
+      optional fields into required ones.
+
 0.03    Mon May 10 22:30 PDT 2010
     - new "check($data)" method, short-hand for
       "Data::FormValidator->check($data, $profile->profile)"
