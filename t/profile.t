@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 23;
+use Test::More tests => 27;
 use Test::Exception;
 BEGIN {
     use_ok( 'Data::FormValidator::Profile' );
@@ -179,4 +179,34 @@ make_required: {
         optional => [qw( other )],
     );
     is_deeply $object->profile, \%expect, '... fields made required';
+}
+
+###############################################################################
+# List "required" fields.
+list_required: {
+    my %profile = (
+        required => [qw( this that )],
+        optional => [qw( other thing )],
+    );
+    my $object = Data::FormValidator::Profile->new( %profile );
+    isa_ok $object, 'Data::FormValidator::Profile';
+
+    my @required = $object->required;
+    my @expect   = qw( this that );
+    is_deeply \@required, \@expect, '... with correct list of required fields';
+}
+
+###############################################################################
+# List "optional" fields.
+list_optional: {
+    my %profile = (
+        required => [qw( this that )],
+        optional => [qw( other thing )],
+    );
+    my $object = Data::FormValidator::Profile->new( %profile );
+    isa_ok $object, 'Data::FormValidator::Profile';
+
+    my @optional = $object->optional;
+    my @expect   = qw( other thing );
+    is_deeply \@optional, \@expect, '... with correct list of required fields';
 }

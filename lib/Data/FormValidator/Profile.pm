@@ -59,6 +59,26 @@ sub profile {
 }
 
 ###############################################################################
+# Subroutine:   required()
+###############################################################################
+# Returns the list of "required" fields in the validation profile.
+###############################################################################
+sub required {
+    my $self = shift;
+    return _arrayify($self->{profile}{required});
+}
+
+###############################################################################
+# Subroutine:   optional()
+###############################################################################
+# Returns the list of "optional" fields in the validation profile.
+###############################################################################
+sub optional {
+    my $self = shift;
+    return _arrayify($self->{profile}{optional});
+}
+
+###############################################################################
 # Subroutine:   only(@fields)
 # Parameters:   @fields     - List of fields to include
 ###############################################################################
@@ -433,6 +453,14 @@ C<Data::FormValidator-E<gt>check($data,$profile-E<gt>profile)>.
 Returns the actual profile, as a hash-ref. You need to call this method
 when you want to send the profile through to C<Data::FormValidator> to do
 data validation.
+
+=item B<required()>
+
+Returns the list of "required" fields in the validation profile.
+
+=item B<optional()>
+
+Returns the list of "optional" fields in the validation profile.
 
 =item B<only(@fields)>
 
