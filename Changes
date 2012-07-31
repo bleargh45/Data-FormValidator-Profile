@@ -1,5 +1,7 @@
 Revision history for Perl extension Data::FormValidator::Profile
 
+0.05    ???
+
 0.04    Wed Feb 1 12:06 PST 2012
     - new method to turn required fields into optional ones, and one to turn
       optional fields into required ones.
