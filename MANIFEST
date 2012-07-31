@@ -9,5 +9,5 @@ README
 lib/Data/FormValidator/Profile.pm
 t/profile.t
 t/profile-add.t
-t/pod.t
-t/pod-coverage.t
+xt/pod.t
+xt/pod-coverage.t
