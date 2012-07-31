@@ -346,6 +346,10 @@ Data::FormValidator::Profile - Profile object for Data::FormValidator
       required  => [qw( some other thing )],
       } );
 
+  # query the optional/required fields in the profile
+  @optional = $profile->optional();
+  @required = $profile->required();
+
   # reduce the profile to just a limited set of fields
   $profile->only( qw(this that) );
 
