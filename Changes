@@ -1,6 +1,9 @@
 Revision history for Perl extension Data::FormValidator::Profile
 
-0.05    ???
+0.06    Tue Jul 31 12:09 PDT 2012
+    - correct date stamp in Changes file
+
+0.05    Tue Jul 31 12:06 PDT 2012
     - added methods to provide easy access to the list of required/optional
       fields in the profile.
 
