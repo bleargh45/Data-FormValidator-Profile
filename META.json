@@ -4,7 +4,7 @@
       "Graham TerMarsch (cpan@howlingfrog.com)"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112150",
+   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.120630",
    "license" : [
       "perl_5"
    ],
@@ -16,8 +16,8 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "Test::Exception" : 0,
-            "Test::More" : 0
+            "Test::Exception" : "0",
+            "Test::More" : "0"
          }
       },
       "configure" : {
@@ -28,7 +28,7 @@
       "runtime" : {
          "requires" : {
             "Data::FormValidator" : "4.5",
-            "List::MoreUtils" : 0
+            "List::MoreUtils" : "0"
          }
       }
    },
