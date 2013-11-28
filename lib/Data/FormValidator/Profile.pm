@@ -131,7 +131,7 @@ sub make_optional {
     $profile->{required} = $required;
     $profile->{optional} = [
         _arrayify($profile->{optional}),
-        @{$optional},
+        @{$optional || []},
     ];
 
     # Support call chaining.
@@ -162,7 +162,7 @@ sub make_required {
     $profile->{optional} = $optional;
     $profile->{required} = [
         _arrayify($profile->{required}),
-        @{$required},
+        @{$required || []},
     ];
 
     # Support call chaining.

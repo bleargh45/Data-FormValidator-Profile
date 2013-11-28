@@ -1,5 +1,9 @@
 Revision history for Perl extension Data::FormValidator::Profile
 
+0.07    Thu Nov 28 10:54 PST 2013
+    - fix "make_optional()" and "make_required()" so they can accept empty
+      lists
+
 0.06    Tue Jul 31 12:09 PDT 2012
     - correct date stamp in Changes file
 

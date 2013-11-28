@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 27;
+use Test::More tests => 31;
 use Test::Exception;
 BEGIN {
     use_ok( 'Data::FormValidator::Profile' );
@@ -164,6 +164,23 @@ make_optional: {
 }
 
 ###############################################################################
+# Empty list can be accepted when making fields optional
+make_optional_empty_list: {
+    my %profile = (
+        required => [qw( this that )],
+    );
+    my $object = Data::FormValidator::Profile->new( %profile );
+    isa_ok $object, 'Data::FormValidator::Profile';
+
+    $object->make_optional();
+    my %expect = (
+        required => [qw( this that )],
+        optional => [ ],
+    );
+    is_deeply $object->profile, \%expect, '... no additional fields made optional';
+}
+
+###############################################################################
 # Turning optional fields into required ones
 make_required: {
     my %profile = (
@@ -179,6 +196,23 @@ make_required: {
         optional => [qw( other )],
     );
     is_deeply $object->profile, \%expect, '... fields made required';
+}
+
+###############################################################################
+# Empty list can be accepted when making fields required
+make_required_empty_list: {
+    my %profile = (
+        optional  => [qw( this that )],
+    );
+    my $object = Data::FormValidator::Profile->new( %profile );
+    isa_ok $object, 'Data::FormValidator::Profile';
+
+    $object->make_required();
+    my %expect = (
+        required => [ ],
+        optional => [qw( this that )],
+    );
+    is_deeply $object->profile, \%expect, '... no additional fields made required';
 }
 
 ###############################################################################
