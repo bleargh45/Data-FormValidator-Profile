@@ -6,7 +6,9 @@ package Data::FormValidator::Profile;
 use strict;
 use warnings;
 use Carp;
+use Data::FormValidator;
 use List::MoreUtils qw(part);
+use namespace::clean;
 
 ###############################################################################
 # Version number.
@@ -16,8 +18,7 @@ our $VERSION = '0.08';
 ###############################################################################
 # Use the '_arrayify()' method from DFV.
 ###############################################################################
-use Data::FormValidator;
-*_arrayify = \&Data::FormValidator::_arrayify;
+sub _arrayify { Data::FormValidator::_arrayify(@_) }
 
 ###############################################################################
 # Subroutine:   new()
