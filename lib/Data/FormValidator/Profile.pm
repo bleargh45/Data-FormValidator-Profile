@@ -441,66 +441,66 @@ just call C<$profile-E<gt>check($data)>; that's the recommended interface.
 
 =over
 
-=item B<new()>
+=item new()
 
 Creates a new DFV::Profile object, based on the given profile (which can be
 provided either as a HASH or a HASHREF).
 
-=item B<check($data)>
+=item check($data)
 
 Checks the given C<$data> against the profile. This method simply acts as a
 short-hand to
 C<Data::FormValidator-E<gt>check($data,$profile-E<gt>profile)>.
 
-=item B<profile()>
+=item profile()
 
 Returns the actual profile, as a hash-ref. You need to call this method
 when you want to send the profile through to C<Data::FormValidator> to do
 data validation.
 
-=item B<required()>
+=item required()
 
 Returns the list of "required" fields in the validation profile.
 
-=item B<optional()>
+=item optional()
 
 Returns the list of "optional" fields in the validation profile.
 
-=item B<only(@fields)>
+=item only(@fields)
 
 Reduces the profile so that it only contains information on the given list
 of C<@fields>.
 
 Returns C<$self>, to support call-chaining.
 
-=item B<remove(@fields)>
+=item remove(@fields)
 
 Removes any of the given C<@fields> from the profile.
 
 Returns C<$self>, to support call-chaining.
 
-=item B<make_optional(@fields)>
+=item make_optional(@fields)
 
 Ensures that the given set of C<@fields> are set as being optional (even if
 they were previously described as being required fields).
 
 Returns C<$self>, to support call-chaining.
 
-=item B<make_required(@fields)>
+=item make_required(@fields)
 
 Ensures that the given set of C<@fields> are set as being required (even if
 they were previously described as being optional fields).
 
 Returns C<$self>, to support call-chaining.
 
-=item B<set(%options)>
+=item set(%options)
 
 Explicitly sets one or more C<%options> into the profile. Useful when you
 KNOW exactly what you want to add/do to the profile.
 
 Returns C<$self>, to support call-chaining.
 
-=item B<add($field, %args)>
+=item add($field, %args)
 
 Adds the given C<$field> to the validation profile, and sets up additional
 validation rules as per the provided C<%args>.
