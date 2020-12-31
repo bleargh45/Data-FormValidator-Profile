@@ -332,6 +332,8 @@ sub _update {
 
 1;
 
+=for stopwords msgs
+
 =head1 NAME
 
 Data::FormValidator::Profile - Profile object for Data::FormValidator
