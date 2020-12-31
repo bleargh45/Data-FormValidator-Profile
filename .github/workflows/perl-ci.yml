@@ -1,0 +1,85 @@
+---
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    name: "Build a distribution tarball"
+    runs-on: ubuntu-latest
+
+    container:
+      image: perldocker/perl-tester:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install CPM + Dist::Zilla Author Bundle
+        uses: perl-actions/install-with-cpm@stable
+        with:
+          sudo: false
+          install: Dist::Zilla::PluginBundle::Author::GTERMARS
+
+      - name: Install dependencies
+        run: cpm install -g --no-test --show-build-log-on-failure $(dzil listdeps --author --missing)
+
+      - name: Test
+        run: dzil test --all
+
+      - name: Build tarball
+        run: dzil build
+
+      - name: Upload tarball artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: tarball
+          path: "*.gz"
+
+  test:
+    name: "Perl v${{ matrix.perl-version }}"
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        perl-version:
+          - "latest"
+          - "5.30"
+          - "5.28"
+          - "5.26"
+          - "5.24"
+          - "5.22"
+          - "5.20"
+          - "5.18"
+          - "5.16"
+          - "5.14"
+          - "5.12"
+          - "5.10"
+          - "5.8"
+
+    container:
+      image: perl:${{ matrix.perl-version }}
+
+    steps:
+      - name: Download tarball artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: tarball
+
+      - name: Unpack tarball
+        run: tar -xz --strip-components 1 -f *.gz
+
+      - name: Install dependencies
+        uses: perl-actions/install-with-cpanm@v1
+        with:
+          sudo: false
+          args: "--installdeps ."
+
+      - name: Build
+        run: |
+          perl Makefile.PL
+          make
+
+      - name: Test
+        run: make test
