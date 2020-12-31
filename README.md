@@ -9,14 +9,14 @@ use Data::FormValidator;
 use Data::FormValidator::Profile;
 
 # create a new DFV::Profile object
-$profile = Data::FormValidator::Profile->new( {
+my $profile = Data::FormValidator::Profile->new( {
     optional  => [qw( this that )],
     required  => [qw( some other thing )],
     } );
 
 # query the optional/required fields in the profile
-@optional = $profile->optional();
-@required = $profile->required();
+my @optional = $profile->optional();
+my @required = $profile->required();
 
 # reduce the profile to just a limited set of fields
 $profile->only( qw(this that) );
@@ -28,10 +28,10 @@ $profile->remove( qw(some other thing) );
 $profile->add( 'username',
     required    => 1,
     filters     => 'trim',
-    constraints => [ ... ],
+    constraints => FV_max_length(32),
     msgs => {
         constraints => {
-            file_max_bytes => 'too big',
+            max_length => 'too big',
         },
     },
 );
@@ -40,13 +40,15 @@ $profile->add( 'username',
 $profile->only(qw( this that other ))
   ->remove(qw( that ))
   ->add(qw( foo ))
-  ->check($data);
+  ->check({ this => 'is a test' });
 
 # use the profile to validate data
-$data = { ... };
-$res  = $profile->check($data);
+my $res = $profile->check({ this => 'is a test' });
 # ... or
-$res  = Data::FormValidator->check( $data, $profile->profile() );
+$res = Data::FormValidator->check(
+  { this => 'is a test' },
+  $profile->profile(),
+);
 ```
 
 # DESCRIPTION
