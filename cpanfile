@@ -1,3 +1,4 @@
+requires 'perl', '>= 5.010';
 requires 'Data::FormValidator', '>= 4.5';
 requires 'List::MoreUtils';
 requires 'namespace::clean';

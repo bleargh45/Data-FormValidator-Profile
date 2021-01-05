@@ -4,6 +4,8 @@ Revision history for Perl extension Data::FormValidator::Profile
     - Switch to Dist::Zilla
     - Ensure that our namespace is clean.
     - POD cleanups; spelling
+    - Bump minimum required Perl to 5.10; the minimum required for
+      Regexp::Common, which is a dependency of Data::FormValidator
 
 0.07    Thu Nov 28 10:54 PST 2013
     - fix "make_optional()" and "make_required()" so they can accept empty
