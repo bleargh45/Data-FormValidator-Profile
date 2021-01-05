@@ -1,4 +1,5 @@
 requires 'Data::FormValidator', '>= 4.5';
+requires 'List::MoreUtils';
 requires 'namespace::clean';
 
 test_requires 'Test::More', '>= 0.96';
