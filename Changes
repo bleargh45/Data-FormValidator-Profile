@@ -1,6 +1,8 @@
 Revision history for Perl extension Data::FormValidator::Profile
 
 {{$NEXT}}
+
+0.08      2021-01-05 00:07:06-08:00 America/Vancouver
     - Switch to Dist::Zilla
     - Ensure that our namespace is clean.
     - POD cleanups; spelling
