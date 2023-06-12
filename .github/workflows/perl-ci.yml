@@ -76,7 +76,7 @@ jobs:
           - "5.10"
 
     container:
-      image: perl:${{ matrix.perl-version }}
+      image: perldocker/perl-tester:${{ matrix.perl-version }}
 
     steps:
       - name: Download tarball artifact
